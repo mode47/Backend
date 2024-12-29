@@ -49,5 +49,11 @@ const register = async (req, res) => {
 
     }
 };
+//log out the user
 
-module.exports={register,login}
+const logout = (req, res) => {
+    res.clearCookie('token');
+    res.json({ message: 'Logged out' });
+};
+
+module.exports={register,login,logout}
