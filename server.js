@@ -11,10 +11,11 @@ app.use(cors());
 const userRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/categoryRoutes');
 const foodRoutes = require('./routes/foodRoutes');
+const cartItemRoutes = require('./routes/cartItemRoutes');
 // Use the routes
 app.use('/food', foodRoutes);
 app.use('/category', categoryRoutes);
-
+app.use('/cart',cartItemRoutes)
 app.use('/auth', userRoutes)
 // Default rout
 app.get('/', (req, res) => {

@@ -11,15 +11,18 @@ app.use(express.json());
 // create new user ;
 
 const createUser = async (username, email, password) => {
-    try{
-        const sql = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
-        const [result]=await pool.execute(sql, [username, email, password]);
-        console.log("result: " + result);
-        return result;
-    }catch(e) {
-        return res.status(500).json({ message: e.message });
+    try {
+      const sql = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+      const [result] = await pool.execute(sql, [username, email, password]);
+  
+      console.log("User created with result:", result);
+      return result; // Return the result for further handling
+    } catch (e) {
+      console.error("Error creating user:", e.message);
+      throw e; // Throw the error for upstream handling
     }
-}
+  };
+
 
 const findUserByEmail= async(email)=>{
     const sql = `SELECT * FROM users WHERE email = ?`;

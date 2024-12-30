@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const UserDb = require('../db/userDb');
 const jwt = require('jsonwebtoken');
+const { createCart } = require('../db/cartDb'); // Import cartDb module
+
 
 
 const register = async (req, res) => {
@@ -12,12 +14,12 @@ const register = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Email already registered' });
         }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-
         // Create the user
-        await UserDb.createUser(username, email, hashedPassword);
+       const result= await UserDb.createUser(username, email, hashedPassword);
+        console.log("user_id",result.insertId);
+        const cart=await createCart(result.insertId);
 
         return res.status(201).json({ message: 'Success' });
     } catch (e) {
@@ -26,7 +28,7 @@ const register = async (req, res) => {
     }
 };
 
- const login = async (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
     console.log(email, password);
     try {
